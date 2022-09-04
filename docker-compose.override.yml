@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  envoy:
+   volumes:
+     - ./Envoy/config/envoy.yaml:/etc/envoy/envoy.yaml
+   ports:
+   - "5200:8000"
+   - "15200:8001"
+
+  dotnet6-api-sample:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
